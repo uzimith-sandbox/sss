@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstdio>
 #include <string>
-#include <string.h>
 #include <vector>
 #include <map>
 #include <algorithm>
@@ -50,12 +49,11 @@ void solve() {
 int main()
 {
   int cases;
-  char buffer[258];
-  scanf("%d\n\n",&cases);
+  cin >> cases;
+  cin.ignore(2048,'\n').ignore(2048,'\n');
   while (cases--) {
-    while(gets(buffer) != NULL && strcmp(buffer, "") != 0){
-      line.push_back(string(buffer));
-    }
+    string read;
+    while(getline(cin,read) && !read.empty()) line.push_back(read);
 
     solve();
     if(cases > 0) cout << endl;
