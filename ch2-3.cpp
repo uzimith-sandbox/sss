@@ -14,7 +14,7 @@ void shuffle(int index) {
 int main(int argc, char *argv[])
 {
   string values[] = {"2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"};
-  string suits[] = {"Clubs","Diamonds","Hearts"in,"Spades"};
+  string suits[] = {"Clubs","Diamonds","Hearts","Spades"};
   int cases;
   cin >> cases;
   while(cases--) {
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
       for(int j = 0; j < 52; j++) {
 	cin >> read;
 	sh.push_back(--read);
-    i  }
+      }
       methods.push_back(sh);
     }
     for(int i = 0; i < number_of_shuffle; i++) {
