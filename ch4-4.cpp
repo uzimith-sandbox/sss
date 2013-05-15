@@ -22,53 +22,21 @@ struct record {
   };
 };
 
-ostream& operator<<(ostream& os,record const& r) {
-os << r.month << ":" << r.day << ":" << r.hour << ":" << r.minute << " " << r.status << r.location;
-  return os;
-};
-
-struct bill {
-  string license;
-  int cost;
-};
-
 int fare[24];
 map<string,vector<record> > records;
-vector<bill> bills;
 
 void solve() {
   map<string,vector<record> >::iterator car = records.begin();
-  while(car != records.end()) {
-    bill b;
-    b.license = (*car).first;
-    b.cost = 0;
+  for(;car != records.end();car++) {
+    sort((*car).second.begin(),(*car).second.end());
+    int cost = 200;
     vector<record> v = (*car).second;
-    sort(v.begin(),v.end());
-    bool entered = false;
-    record start;
-    vector<record>::iterator ite = v.begin();
-    while(ite != v.end()) {
-      if(!entered) {
-	if((*ite).status == "enter") {
-	  start = (*ite);
-	  entered = true;
-	}
-      } else {
-    	if((*ite).status == "exit") {
-	  b.cost += 100 + fare[start.hour]*(abs((*ite).location - start.location));
-	  entered = false;
-	}
-      }
-      ite++;
-    }
-    if(b.cost > 100) {
-      b.cost += 200;
-      bills.push_back(b);
-    }
-    car++;
+    for (int i = 1; i < v.size(); i++)
+      if(v[i].status == "exit" && (v[i-1].status == "enter"))
+	 cost += 100 + fare[v[i-1].hour]*(abs(v[i].location - v[i-1].location));
+    if(cost > 200)
+      cout << (*car).first << " " << "$" << fixed << setprecision(2) << cost / 100.0 << endl;
   }
-
-  for (int i = 0; i < bills.size(); i++) cout << bills[i].license << " " << "$" << fixed << setprecision(2) << bills[i].cost / 100.0 << endl;
 }
 
 int main()
@@ -92,11 +60,9 @@ int main()
 	r.day >> space >> r.hour >> space >> r.minute >> r.status >> r.location;
       records[license].push_back(r);
     }
-    map<string,vector<record> >::iterator car = records.begin();
     solve();
     records.clear();
-    bills.clear();
-    if(cases != 0) cout << endl;
+    if(cases) cout << endl;
   }
   return 0;
 }
